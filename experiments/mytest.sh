@@ -16,8 +16,8 @@ echo $myImgDir
 if [ ! -d "$myImgDir" ]
 then
   mkdir $myImgDir
+  ffmpeg -i "$1" -f image2 "$myImgDir/"video-frame%05d.jpg
 fi
 
-ffmpeg -i "$1" -f image2 "$myImgDir/"video-frame%05d.jpg
-
+cd ~/monodepth2
 python test_simple.py --image_path $myImgDir --model_name mono+stereo_640x192
