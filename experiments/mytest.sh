@@ -39,7 +39,7 @@ cd $basedir/../
 python test_simple.py --image_path $myImgDir --model_name $modeType
 
 myVideo="$myImgDir-depth.$extension"
-ffmpeg -i "$myImgDir/"video-frame%05d_disp.jpeg $myVideo
+ffmpeg -f image2 -framerate 30 -i "$myImgDir/"video-frame%05d_disp.jpeg $myVideo
 #ffmpeg  -f image2 -framerate 30 -i "$myImgDir/"video-frame%05d.jpg $myVideo
 echo "=================frames converted to video==================="
 
