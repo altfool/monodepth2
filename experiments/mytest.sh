@@ -1,3 +1,18 @@
+echo "$#"
+if [ "$#" -lt 1 ]
+then
+  echo "please append video path & model type"
+  exit 1
+fi
+if [ "$#" -eq 1 ]
+then
+  echo "use default mode type mono+stereo_640x192"
+  modeType="mono+stereo_640x192"
+else
+  modeType=$2
+fi
+
+
 if [ -e "$1" ]
 then
   basedir=$(dirname $(readlink -f "$1"))
@@ -11,7 +26,7 @@ else
   echo "movie file not existing"
 fi
 
-myImgDir="$basedir/my$filename"
+myImgDir="$basedir/$filename"
 echo $myImgDir
 if [ ! -d "$myImgDir" ]
 then
@@ -20,12 +35,13 @@ then
   echo "===============video converted to frames================="
 fi
 
-cd ~/monodepth2
-#python test_simple.py --image_path $myImgDir --model_name mono+stereo_640x192
+cd $basedir/../
+python test_simple.py --image_path $myImgDir --model_name $modeType
 
-myVideo="$myImgDir.$extension"
-#ffmpeg -i "$myImgDir/"video-frame%05d_disp.jpeg "$myImgDir.$extension"
-ffmpeg  -f image2 -framerate 30 -i "$myImgDir/"video-frame%05d.jpg $myVideo
+myVideo="$myImgDir-depth.$extension"
+ffmpeg -i "$myImgDir/"video-frame%05d_disp.jpeg $myVideo
+#ffmpeg  -f image2 -framerate 30 -i "$myImgDir/"video-frame%05d.jpg $myVideo
 echo "=================frames converted to video==================="
-ffmpeg -i $1 -i $myVideo -filter_complex vstack=inputs=2 "$basedir/final.MOV"
+
+ffmpeg -i "$basedir/$filename.$extension" -i $myVideo -filter_complex vstack=inputs=2 "$myImgDir-final.MOV"
 echo "==================videos stacked========================="

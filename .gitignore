@@ -6,5 +6,5 @@ __pycache__
 kitti_data
 models
 *.MOV
-assets/my*
+assets/IMG*
 .idea
