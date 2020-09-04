@@ -43,5 +43,6 @@ ffmpeg -i "$myImgDir/"video-frame%05d_disp.jpeg $myVideo
 #ffmpeg  -f image2 -framerate 30 -i "$myImgDir/"video-frame%05d.jpg $myVideo
 echo "=================frames converted to video==================="
 
-ffmpeg -i "$basedir/$filename.$extension" -i $myVideo -filter_complex vstack=inputs=2 "$myImgDir-final.MOV"
+myStackVideo="$myImgDir-final.$extension"
+ffmpeg -i "$basedir/$filename.$extension" -i $myVideo -filter_complex vstack=inputs=2 $myStackVideo
 echo "==================videos stacked========================="
